@@ -1,7 +1,7 @@
 use Text::Hyphenate;
 # $Text::Hyphenate::DEBUG = 1;
 
-$target = shift || 60;
+$target = shift || 40;
 
 $s = qq{I like to watch base-ball games.  Don't you?};
 $s = qq{
@@ -36,7 +36,7 @@ evening and the morning were the third day.
 # $par = Text::Hyphenate::hyphenate($s, $target, 2);
 @mode = qw(RAGGED-RIGHT RAGGED-LEFT JUSTIFY CENTER);
 
-for $mode (0) {
+for $mode (0, 1, 2, 3) {
   print "\n\n$mode[$mode]:\n";
   $par = Text::Hyphenate::hyphenate($s, $target, $mode);
   print $par;

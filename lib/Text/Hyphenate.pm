@@ -2,7 +2,7 @@ package Text::Hyphenate;
 
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK $DEBUG);
-
+BEGIN { $DEBUG = 0 }
 require Exporter;
 
 @ISA = qw(Exporter);
@@ -12,7 +12,7 @@ my $h;
 
 while (<DATA>) {
   last if /-{32}/;
-  chomp;
+  s/\r?\n$//;
 #  print "--- $_\n";
   
   my ($tag, $value, $begin, $end);
@@ -49,7 +49,7 @@ while (<DATA>) {
 }
 
 @EXPORT_OK = qw(hyphenate fill_par);
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use vars qw($RAGGED_RIGHT $RAGGED_LEFT $JUSTIFY $CENTER);
 $RAGGED_RIGHT=0; $RAGGED_LEFT=1; $JUSTIFY=2;  $CENTER=3;
@@ -59,6 +59,7 @@ sub hyphenate {
   my (@chunks) = split(/(\n[ \t]*\n)/, $_[0]);
   my $result;
   while (@chunks) {
+    local $^W = 0;
     my $par = hyphenate_par(shift @chunks, $_[1], $_[2]);
     $result .= $par . (shift @chunks);
   }
@@ -113,6 +114,7 @@ sub align_words {
     my @wds;
     my $tl;
     for ($i = 0; $i < @$wds; $i++) {
+      local $^W = 0;
       $w = $wds->[$i];
       $tl += length $w;
       if ($w =~ /-$/) {

@@ -1,5 +1,6 @@
 Changes
-Hyphenate.pm
+lib/Text/Hyphenate.pm
 MANIFEST
 Makefile.PL
-test.pl
+example.pl
+t/00-basic.t
